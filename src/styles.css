@@ -118,11 +118,6 @@ button { cursor: pointer; }
 .panel-heading h2 { margin: 11px 0 0; font-size: 31px; font-weight: 500; letter-spacing: -.055em; }
 .panel-index, .section-count { padding-top: 5px; color: #a0a69b; font-size: 9px; }
 
-.mode-switch { display: grid; grid-template-columns: 1fr 1fr; margin: 27px 0 25px; border-bottom: 1px solid var(--line); }
-.mode-switch button { position: relative; padding: 0 0 12px; border: 0; background: transparent; color: #92978f; font-size: 12px; text-align: left; }
-.mode-switch button.active { color: var(--green-dark); font-weight: 700; }
-.mode-switch button.active::after { position: absolute; right: 0; bottom: -1px; left: 0; height: 2px; background: var(--green); content: ''; }
-
 .stack-form { display: grid; gap: 17px; }
 .stack-form label { display: grid; gap: 8px; color: #5d645a; font-size: 11px; font-weight: 600; }
 .stack-form input, .stack-form select {

@@ -42,7 +42,6 @@ function getSavedSession() {
 
 function App() {
   const [session, setSession] = useState(getSavedSession);
-  const [mode, setMode] = useState('login');
   const [notice, setNotice] = useState(null);
   const [busy, setBusy] = useState(false);
   const [products, setProducts] = useState([]);
@@ -94,14 +93,9 @@ function App() {
     setNotice(null);
 
     try {
-      const registering = mode === 'register';
-      const result = await request(registering ? '/api/auth/register' : '/api/auth/login', {
+      const result = await request('/api/auth/login', {
         method: 'POST',
-        body: JSON.stringify(
-          registering
-            ? { username: values.username, email: values.email, password: values.password }
-            : { username: values.username, password: values.password },
-        ),
+        body: JSON.stringify({ username: values.username, password: values.password }),
       });
 
       const nextSession = {
@@ -111,9 +105,7 @@ function App() {
       setSession(nextSession);
       setNotice({
         type: 'success',
-        text: registering
-          ? 'Account created. You are signed in as a regular user.'
-          : `Welcome back, ${result.user.username}.`,
+        text: `Welcome back, ${result.user.username}.`,
       });
       formElement.reset();
     } catch (error) {
@@ -250,7 +242,7 @@ function App() {
           <p className="eyebrow"><span>01</span> YOUR WORKSPACE, UNDER CONTROL</p>
           <h1>Good access<br />starts <em>here.</em></h1>
           <p className="hero-description">
-            Sign in to your account or create one. Administrators can manage who gets access next.
+            Sign in to manage your account. Administrators can manage who gets access next.
           </p>
           <div className="hero-meta">
             <span>SECURE ACCESS</span><span className="meta-separator">/</span>
@@ -329,54 +321,35 @@ function App() {
             <>
               <div className="panel-heading">
                 <div>
-                  <p className="eyebrow"><span>{mode === 'login' ? 'WELCOME BACK' : 'GET STARTED'}</span></p>
-                  <h2>{mode === 'login' ? 'Sign in.' : 'Create account.'}</h2>
+                  <p className="eyebrow"><span>WELCOME BACK</span></p>
+                  <h2>Sign in.</h2>
                 </div>
                 <span className="panel-index">A—01</span>
               </div>
 
-              <div className="mode-switch" role="tablist" aria-label="Account action">
-                <button className={mode === 'login' ? 'active' : ''} type="button" role="tab" aria-selected={mode === 'login'} onClick={() => { setMode('login'); setNotice(null); }}>
-                  Sign in
-                </button>
-                <button className={mode === 'register' ? 'active' : ''} type="button" role="tab" aria-selected={mode === 'register'} onClick={() => { setMode('register'); setNotice(null); }}>
-                  Register
-                </button>
-              </div>
-
               <form className="stack-form" onSubmit={authenticate}>
-                {mode === 'register' && (
-                  <label>
-                    Username
-                    <input name="username" autoComplete="username" minLength="3" maxLength="100" pattern="[A-Za-z0-9_]+" placeholder="your_username" required />
-                    <span className="input-hint">Letters, numbers and underscores · 3–100 characters</span>
-                  </label>
-                )}
                 <label>
-                  {mode === 'login' ? 'Username' : 'Email address'}
+                  Username
                   <input
-                    name={mode === 'login' ? 'username' : 'email'}
-                    type={mode === 'login' ? 'text' : 'email'}
-                    autoComplete={mode === 'login' ? 'username' : 'email'}
-                    maxLength={mode === 'login' ? '100' : '255'}
-                    placeholder={mode === 'login' ? 'your_username' : 'you@example.com'}
+                    name="username"
+                    type="text"
+                    autoComplete="username"
+                    maxLength="100"
+                    placeholder="Enter your username"
                     required
                   />
                 </label>
                 <label>
                   Password
-                  <input name="password" type="password" autoComplete={mode === 'login' ? 'current-password' : 'new-password'} minLength={mode === 'register' ? '8' : undefined} maxLength="72" placeholder={mode === 'register' ? 'At least 8 characters' : 'Enter your password'} required />
-                  {mode === 'register' && <span className="input-hint">Use 8–72 characters. Registration creates a regular user.</span>}
+                  <input name="password" type="password" autoComplete="current-password" maxLength="72" placeholder="Enter your password" required />
                 </label>
                 <button className="primary-button" type="submit" disabled={busy}>
-                  {busy ? 'Please wait…' : mode === 'login' ? 'Sign in to portal' : 'Create your account'} <span>↗</span>
+                  {busy ? 'Please wait…' : 'Sign in to portal'} <span>↗</span>
                 </button>
               </form>
 
               <p className="form-footnote">
-                {mode === 'login'
-                  ? 'Your access is protected by your personal credentials.'
-                  : 'Need administrator access? Ask an existing administrator to create your account.'}
+                Your access is protected by your personal credentials.
               </p>
             </>
           )}
