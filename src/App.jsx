@@ -266,7 +266,7 @@ function App() {
                   <p className="eyebrow"><span>SESSION ACTIVE</span></p>
                   <h2>You’re in.</h2>
                 </div>
-                <button className="text-button" type="button" onClick={signOut}>Sign out <span>↗</span></button>
+                <button className="sign-out-button" type="button" onClick={signOut}>Sign out</button>
               </div>
 
               <div className="identity-card">
