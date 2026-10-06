@@ -11,4 +11,7 @@ export default defineConfig({
       },
     },
   },
+  preview: {
+    allowedHosts: ['hernandez-jenuel-lavalust-frontend.onrender.com'],
+  },
 });
