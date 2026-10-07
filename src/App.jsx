@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/+$/, '');
+const API_BASE_URL = 'https://hernandez-jenuel-lavalust-api.onrender.com';
 const SESSION_KEY = 'lavalust-account-session';
 
 async function request(path, { token, ...options } = {}) {
